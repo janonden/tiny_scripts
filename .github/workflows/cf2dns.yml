@@ -3,7 +3,7 @@ name: 'CloudFlare2DNSPod Bot'
 on:
   workflow_dispatch:
   schedule:
-    - cron: '12 6-23 * * *'
+    - cron: '12 * * * *'
 
 jobs:
   build:
