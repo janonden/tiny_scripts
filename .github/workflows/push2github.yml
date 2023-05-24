@@ -1,0 +1,31 @@
+name: 'Push 2 Github Bot'
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 9 1 * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+      - name: 'run'
+        run: |
+          current_time=`date +"%Y-%m-%d %H:%M:%S"`
+          echo $current_time > version.txt
+      - name: Commit
+        run: |
+          git config user.name ${{ secrets.USER_NAME }}
+          git config user.email ${{ secrets.USER_EMAIL }}
+          gitstatus=`git status --porcelain`
+          [ -n "$gitstatus" ] && echo 'git add' && git add version.txt
+          [ -n "$gitstatus" ] && echo 'git comit' && git commit -m "auto commit from github actions"
+          [ -z "$gitstatus" ] && echo 'no update'
+          echo 'commit end'
+      - name: Push
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
