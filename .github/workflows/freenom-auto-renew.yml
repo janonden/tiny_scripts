@@ -2,9 +2,9 @@ name: 'Freenom Auto Renew'
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 0 25 10 *'
-    - cron: '0 0 1,6 11 *'
+#  schedule:
+#    - cron: '0 0 25 10 *'
+#    - cron: '0 0 1,6 11 *'
 
 jobs:
   build:
