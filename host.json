@@ -1,0 +1,9 @@
+[
+  "*.gstatic.com",
+  "*.run.claw.cloud",
+  "c.pki.goog",
+  "scholar.google.com",
+  "*.googlevideo.com",
+  "*-contacts.icloud.com",
+  "safebrowsing.googleapis.com"
+]

@@ -1,0 +1,45 @@
+name: 'Freenom Auto Renew'
+
+on:
+  workflow_dispatch:
+#  schedule:
+#    - cron: '0 0 25 10 *'
+#    - cron: '0 0 1,6 11 *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./freenom-auto-renew
+
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+      - name: 'Set up Python'
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.7
+      - name: Cache pip
+        uses: actions/cache@v3
+        with:
+          # This path is specific to Ubuntu
+          path: ~/.cache/pip
+          # Look to see if there is a cache hit for the corresponding requirements file
+          key: ${{ runner.os }}-pip-${{ hashFiles('./freenom-auto-renew/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+            ${{ runner.os }}-
+
+      - name: 'Install dependencies'
+        run: |
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: 'run freenom'
+        env:
+          USERNAME: ${{ secrets.FAU_USERNAME }}
+          PASSWORD: ${{ secrets.FAU_PASSWORD }}
+          PROXY_URL: ${{ secrets.FAU_PROXY_URL }}
+          NOTIFY_TYPE: ${{ secrets.FAU_NOTITY_TYPE }}
+          NOTIFY_CONFIG: ${{ secrets.FAU_NOTTITY_CONFIG }}
+        run: |
+          python freenom.py

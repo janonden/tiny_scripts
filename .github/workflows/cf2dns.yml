@@ -1,0 +1,43 @@
+name: 'CloudFlare2DNSPod Bot'
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '12 * * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./cf2dns
+
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+      - name: 'Set up Python'
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.8.18
+      - name: Cache pip
+        uses: actions/cache@v3
+        with:
+          # This path is specific to Ubuntu
+          path: ~/.cache/pip
+          # Look to see if there is a cache hit for the corresponding requirements file
+          key: ${{ runner.os }}-pip-${{ hashFiles('./cf2dns/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+            ${{ runner.os }}-
+      - name: 'Install dependencies'
+        run: |
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: 'run cf2dns'
+        env:
+          KEY: ${{ secrets.CF2DNS_KEY }}
+          DOMAINS: ${{ secrets.CF2DNS_DOMAINS }}
+          SECRETID: ${{ secrets.CF2DNS_SECRETID }}
+          SECRETKEY: ${{ secrets.CF2DNS_SECRETKEY }}
+          OPTIMIZATION_IP: ${{ secrets.CF2DNS_OPTIMIZATION_IP }}
+        run: |
+          python cf2dns_actions2.py
