@@ -68,7 +68,7 @@ async def main():
         account_key = f"account_{i + 1}"
         account_name = account_config.get_display_name(i)
         if len(notification_content) > 0:
-            notification_content.append("\n-------------------------------")
+            notification_content.append("\n")
 
         try:
             provider_config = app_config.get_provider(account_config.provider)
@@ -76,7 +76,7 @@ async def main():
                 print(f"❌ {account_name}: Provider '{account_config.provider}' configuration not found")
                 need_notify = True
                 notification_content.append(
-                    f"[FAIL] {account_name}: Provider '{account_config.provider}' configuration not found"
+                    f"❌ {account_name}: Provider '{account_config.provider}' configuration not found"
                 )
                 continue
 
@@ -93,10 +93,11 @@ async def main():
 
             this_account_balances = {}
             # 构建详细的结果报告
-            account_result = f"📣 {account_name} Summary:\n"
+            account_result = f"📣 {account_name} :\n"
             for auth_method, success, user_info in results:
-                status = "✅ SUCCESS" if success else "❌ FAILED"
-                account_result += f"  {status} with {auth_method} authentication\n"
+                status = "✅ " if success else "❌ "
+                account_result += f"  {status} "
+                # account_result += f"  {status} with {auth_method} authentication\n"
 
                 if success and user_info and user_info.get("success"):
                     account_success = True
@@ -134,9 +135,9 @@ async def main():
             success_count_methods = len(successful_methods)
             failed_count_methods = len(failed_methods)
 
-            account_result += f"\n📊 Statistics: {success_count_methods}/{len(results)} methods successful"
-            if failed_count_methods > 0:
-                account_result += f" ({failed_count_methods} failed)"
+            # account_result += f"\n📊 Statistics: {success_count_methods}/{len(results)} methods successful"
+            # if failed_count_methods > 0:
+            #     account_result += f" ({failed_count_methods} failed)"
 
             notification_content.append(account_result)
 
@@ -180,9 +181,9 @@ async def main():
         else:
             summary.append("❌ All accounts check-in failed")
 
-        time_info = f'🕓 Execution time: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
+        time_info = f'🕓 {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
 
-        notify_content = "\n\n".join([time_info, "\n".join(notification_content), "\n".join(summary)])
+        notify_content = "\n".join([time_info, "\n".join(notification_content), "\n".join(summary)])
 
         print(notify_content)
         notify.push_message("Check-in Alert", notify_content, msg_type="text")
