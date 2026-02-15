@@ -655,7 +655,7 @@ class CheckIn:
                             "quota": quota,
                             "used_quota": used_quota,
                             "bonus_quota": bonus_quota,
-                            "display": f"Current balance: ${quota}, Used: ${used_quota}, Bonus: ${bonus_quota}",
+                            "display": f"Current balance: ${quota}, Used: ${used_quota}",
                         }
 
                     return {
@@ -709,7 +709,7 @@ class CheckIn:
                         "quota": quota,
                         "used_quota": used_quota,
                         "bonus_quota": bonus_quota,
-                        "display": f"Current balance: ${quota}, Used: ${used_quota}, Bonus: ${bonus_quota}",
+                        "display": f"Current balance: ${quota}, Used: ${used_quota}",
                     }
                 else:
                     error_msg = json_data.get("message", "Unknown error")
