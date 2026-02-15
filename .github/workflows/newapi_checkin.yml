@@ -110,6 +110,7 @@ jobs:
       env:
         ACCOUNTS: ${{ inputs.accounts || secrets.ACIN_ANYROUTER_ACCOUNTS }}
         PROVIDERS: ${{ inputs.providers || secrets.ACIN_PROVIDERS }}
+        ACCOUNTS_LINUX_DO: ${{ secrets.ACIN_ACCOUNTS_LINUX_DO }}
         NOTIFY_TYPE: ${{ secrets.FAU_NOTITY_TYPE }}
         NOTIFY_CONFIG: ${{ secrets.FAU_NOTITY_CONFIG }}
       run: |

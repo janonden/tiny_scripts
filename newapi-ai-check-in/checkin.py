@@ -641,10 +641,11 @@ class CheckIn:
                     )
 
                     if response and "data" in response:
+                        exchange_rate = self.account_config.get("exchange_rate", 1)
                         user_data = response.get("data", {})
-                        quota = round(user_data.get("quota", 0) / 500000, 2)
-                        used_quota = round(user_data.get("used_quota", 0) / 500000, 2)
-                        bonus_quota = round(user_data.get("bonus_quota", 0) / 500000, 2)
+                        quota = round(user_data.get("quota", 0) / 500000 * exchange_rate, 2)
+                        used_quota = round(user_data.get("used_quota", 0) / 500000 * exchange_rate, 2)
+                        bonus_quota = round(user_data.get("bonus_quota", 0) / 500000 * exchange_rate, 2)
                         print(
                             f"✅ {self.account_name}: "
                             f"Current balance: ${quota}, Used: ${used_quota}, Bonus: ${bonus_quota}"
@@ -698,10 +699,11 @@ class CheckIn:
                     }
 
                 if json_data.get("success"):
+                    exchange_rate = self.account_config.get("exchange_rate", 1)
                     user_data = json_data.get("data", {})
-                    quota = round(user_data.get("quota", 0) / 500000, 2)
-                    used_quota = round(user_data.get("used_quota", 0) / 500000, 2)
-                    bonus_quota = round(user_data.get("bonus_quota", 0) / 500000, 2)
+                    quota = round(user_data.get("quota", 0) / 500000 * exchange_rate, 2)
+                    used_quota = round(user_data.get("used_quota", 0) / 500000 * exchange_rate, 2)
+                    bonus_quota = round(user_data.get("bonus_quota", 0) / 500000 * exchange_rate, 2)
                     return {
                         "success": True,
                         "quota": quota,
@@ -778,7 +780,8 @@ class CheckIn:
                 quota_awarded = check_in_data.get("quota_awarded", 0)
                 
                 if quota_awarded:
-                    quota_display = round(quota_awarded / 500000, 2)
+                    exchange_rate = self.account_config.get("exchange_rate", 1)
+                    quota_display = round(quota_awarded / 500000 * exchange_rate, 2)
                     print(f"✅ {self.account_name}: Check-in successful! Date: {checkin_date}, Quota awarded: ${quota_display}")
                 else:
                     print(f"✅ {self.account_name}: Check-in successful! {message}")
