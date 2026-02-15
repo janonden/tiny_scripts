@@ -67,8 +67,6 @@ async def main():
     for i, account_config in enumerate(app_config.accounts):
         account_key = f"account_{i + 1}"
         account_name = account_config.get_display_name(i)
-        if len(notification_content) > 0:
-            notification_content.append("\n")
 
         try:
             provider_config = app_config.get_provider(account_config.provider)
@@ -103,7 +101,7 @@ async def main():
                     account_success = True
                     success_count += 1
                     successful_methods.append(auth_method)
-                    account_result += f"    💰 {user_info['display']}\n"
+                    account_result += f"    💰 {user_info['display']}"
                     # 记录余额信息
                     current_quota = user_info["quota"]
                     current_used = user_info["used_quota"]
@@ -116,7 +114,7 @@ async def main():
                 else:
                     failed_methods.append(auth_method)
                     error_msg = user_info.get("error", "Unknown error") if user_info else "Unknown error"
-                    account_result += f"    🔺 {str(error_msg)}\n"
+                    account_result += f"    🔺 {str(error_msg)}"
 
             if account_success:
                 current_balances[account_key] = this_account_balances
@@ -132,8 +130,8 @@ async def main():
                 print(f"🔔 {account_name} has some failed authentication methods, will send notification")
 
             # 添加统计信息
-            success_count_methods = len(successful_methods)
-            failed_count_methods = len(failed_methods)
+            # success_count_methods = len(successful_methods)
+            # failed_count_methods = len(failed_methods)
 
             # account_result += f"\n📊 Statistics: {success_count_methods}/{len(results)} methods successful"
             # if failed_count_methods > 0:
@@ -171,8 +169,10 @@ async def main():
             "-------------------------------",
             "📢 Check-in result statistics:",
             f"🔵 Success: {success_count}/{total_count}",
-            f"🔴 Failed: {total_count - success_count}/{total_count}",
         ]
+
+        if success_count != total_count :
+            summary.append(f"🔴 Failed: {total_count - success_count}/{total_count}")
 
         if success_count == total_count:
             summary.append("✅ All accounts check-in successful!")
