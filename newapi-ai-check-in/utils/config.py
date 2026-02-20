@@ -621,7 +621,7 @@ class AppConfig:
                 linuxdo_client_id="qVGkHnU8fLzJVEMgHCuNUCYifUQwePWn",
                 linuxdo_auth_path="/api/oauth/linuxdo",
                 aliyun_captcha=False,
-                bypass_method="cf_clearance",
+                bypass_method=None,
             ),
             "b4u": ProviderConfig(
                 name="b4u",
