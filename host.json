@@ -5,5 +5,6 @@
   "scholar.google.com",
   "*.googlevideo.com",
   "*-contacts.icloud.com",
-  "safebrowsing.googleapis.com"
+  "safebrowsing.googleapis.com",
+  "*.facebook.com"
 ]
