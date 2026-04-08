@@ -2,6 +2,7 @@
 __pycache__
 
 data/
+scripts/
 
 # local env files
 .env.local
